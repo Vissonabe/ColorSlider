@@ -1,4 +1,4 @@
-package com.example.viswanathankp.colorslider;
+package com.in.viswanathankp.colorslider;
 
 import org.junit.Test;
 

@@ -1,10 +1,11 @@
-package com.example.viswanathankp.colorsliderdemo;
+package com.in.viswanathankp.colorsliderdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.viswanathankp.colorslider.ColorSlider;
+import com.in.viswanathankp.colorslider.ColorSlider;
+import com.example.viswanathankp.colorsliderdemo.R;
 
 public class MainActivity extends AppCompatActivity {
 

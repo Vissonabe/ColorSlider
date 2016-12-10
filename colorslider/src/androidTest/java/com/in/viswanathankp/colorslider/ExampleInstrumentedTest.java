@@ -1,4 +1,4 @@
-package com.example.viswanathankp.colorslider;
+package com.in.viswanathankp.colorslider;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
