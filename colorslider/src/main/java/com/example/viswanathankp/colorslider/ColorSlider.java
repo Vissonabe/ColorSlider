@@ -10,6 +10,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,7 +50,7 @@ public class ColorSlider extends View {
 
     private RectF mBarRect = new RectF();
 
-    private boolean mIsMovingPointer;
+    private boolean mIsPointerMoving;
 
     private int mColor;
 
@@ -124,7 +125,7 @@ public class ColorSlider extends View {
         final int intrinsicSize = mPreferredBarLength
                 + (mBarPointerHaloRadius * 2);
 
-        // Variable orientation
+        // Used to decide orientation
         int measureSpec;
         if (mOrientation == ORIENTATION_HORIZONTAL) {
             measureSpec = widthMeasureSpec;
@@ -162,7 +163,7 @@ public class ColorSlider extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        // Fill the rectangle instance based on orientation
+        // creates view based on orientation
         if (mOrientation == ORIENTATION_HORIZONTAL) {
             mBarLength = w - (mBarPointerHaloRadius * 2);
             mBarRect.set(mBarPointerHaloRadius,
@@ -187,10 +188,10 @@ public class ColorSlider extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // Draw the bar.
+        // draw the bar.
         canvas.drawRect(mBarRect, mBarPaint);
 
-        // Calculate the center of the pointer.
+        // calculate the center of the pointer.
         int cX, cY;
         if (mOrientation == ORIENTATION_HORIZONTAL) {
             cX = mBarPointerPosition;
@@ -201,9 +202,9 @@ public class ColorSlider extends View {
             cY = mBarPointerPosition;
         }
 
-        // Draw the pointer halo.
+        // draws the pointer halo.
         canvas.drawCircle(cX, cY, mBarPointerHaloRadius, mBarPointerHaloPaint);
-        // Draw the pointer.
+        // draws the pointer.
         canvas.drawCircle(cX, cY, mBarPointerRadius, mBarPointerPaint);
 
         setPointerCenterColor(cX,cY);
@@ -213,7 +214,6 @@ public class ColorSlider extends View {
     public boolean onTouchEvent(MotionEvent event) {
         getParent().requestDisallowInterceptTouchEvent(true);
 
-        // Convert coordinates to our internal coordinate system
         float dimen;
         if (mOrientation == ORIENTATION_HORIZONTAL) {
             dimen = event.getX();
@@ -224,7 +224,7 @@ public class ColorSlider extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mIsMovingPointer = true;
+                mIsPointerMoving = true;
                 // Check whether the user pressed on (or near) the pointer
                 if (dimen >= (mBarPointerHaloRadius)
                         && dimen <= (mBarPointerHaloRadius + mBarLength)) {
@@ -233,7 +233,7 @@ public class ColorSlider extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (mIsMovingPointer) {
+                if (mIsPointerMoving) {
                     // Move the the pointer on the bar.
                     if (dimen >= mBarPointerHaloRadius
                             && dimen <= (mBarPointerHaloRadius + mBarLength)) {
@@ -249,7 +249,7 @@ public class ColorSlider extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                mIsMovingPointer = false;
+                mIsPointerMoving = false;
                 break;
         }
         return true;
